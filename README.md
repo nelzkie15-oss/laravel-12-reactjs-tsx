@@ -1,14 +1,14 @@
 if you run to your computer.
 
 ---laravel----
-composer install
-php artisan key:generate
-php artisan cache:clear
-php artisan optimize
+composer install,
+php artisan key:generate,
+php artisan cache:clear,
+php artisan optimize,
 
 ---react---
 
-npm install
+npm install,
 
 
 ---.env ---
