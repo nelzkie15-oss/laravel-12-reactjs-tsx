@@ -1,4 +1,4 @@
-if you run to your computer
+if you run to your computer.
 
 ---laravel----
 composer install
