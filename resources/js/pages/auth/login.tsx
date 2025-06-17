@@ -1,7 +1,7 @@
-import { Head, useForm } from '@inertiajs/react';
+
 import { LoaderCircle } from 'lucide-react';
 import { FormEventHandler } from 'react';
-
+import { type SharedData } from '@/types';
 import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
@@ -9,6 +9,8 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/auth-layout';
+import { Head, Link, useForm, usePage } from '@inertiajs/react';
+
 
 type LoginForm = {
     email: string;
@@ -35,8 +37,45 @@ export default function Login({ status, canResetPassword }: LoginProps) {
         });
     };
 
+       const { auth } = usePage<SharedData>().props;
+
     return (
-        <AuthLayout title="Log in to your account" description="Enter your email and password below to log in">
+
+     <>
+
+    <Head title="Welcome">
+            <link rel="preconnect" href="https://fonts.bunny.net" />
+            <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
+        </Head>
+
+                <nav className="flex items-center justify-end py-3 bg-red-400 justify-content:space-between">
+                    {auth.user ? (
+                        <Link
+                            href={route('dashboard')}
+                            className="mx-2 inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
+                        >
+                            Dashboard
+                        </Link>
+
+                    ) : (
+                        <>
+                            <Link
+                                href={route('login')}
+                                className="mx-2 inline-block rounded-sm border border-transparent px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#19140035] dark:text-[#EDEDEC] dark:hover:border-[#3E3E3A]"
+                            >
+                                Log in
+                            </Link>
+                            <Link
+                                href={route('register')}
+                                className="mr-4 inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#325e91] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
+                            >
+                                Register
+                            </Link>
+                        </>
+                    )}
+                </nav>
+
+         <AuthLayout title="Log in to your account" description="Enter your email and password below to log in">
             <Head title="Log in" />
 
             <form className="flex flex-col gap-6" onSubmit={submit}>
@@ -90,13 +129,13 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                         <Label htmlFor="remember">Remember me</Label>
                     </div>
 
-                    <Button type="submit" className="mt-4 w-full" tabIndex={4} disabled={processing}>
-                        {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
+                    <Button type="submit" className="w-full mt-4 bg-red-400 hover:bg-red-500" tabIndex={4} disabled={processing}>
+                        {processing && <LoaderCircle className="w-4 h-4 animate-spin" />}
                         Log in
                     </Button>
                 </div>
 
-                <div className="text-center text-sm text-muted-foreground">
+                <div className="text-sm text-center text-muted-foreground">
                     Don't have an account?{' '}
                     <TextLink href={route('register')} tabIndex={5}>
                         Sign up
@@ -104,7 +143,10 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                 </div>
             </form>
 
-            {status && <div className="mb-4 text-center text-sm font-medium text-green-600">{status}</div>}
+            {status && <div className="mb-4 text-sm font-medium text-center text-green-600">{status}</div>}
         </AuthLayout>
+
+         </>
+
     );
 }

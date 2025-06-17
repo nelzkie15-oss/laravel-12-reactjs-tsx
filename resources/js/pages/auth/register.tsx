@@ -1,7 +1,7 @@
-import { Head, useForm } from '@inertiajs/react';
+import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
 import { FormEventHandler } from 'react';
-
+import { type SharedData } from '@/types';
 import InputError from '@/components/input-error';
 import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
@@ -31,7 +31,42 @@ export default function Register() {
         });
     };
 
+       const { auth } = usePage<SharedData>().props;
+
     return (
+      <>
+        <Head title="Welcome">
+        <link rel="preconnect" href="https://fonts.bunny.net" />
+        <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
+       </Head>
+
+            <nav className="flex items-center justify-end py-3 bg-red-400 justify-content:space-between">
+                {auth.user ? (
+                    <Link
+                        href={route('dashboard')}
+                        className="mx-2 inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
+                    >
+                        Dashboard
+                    </Link>
+
+                ) : (
+                    <>
+                        <Link
+                            href={route('login')}
+                            className="mx-2 inline-block rounded-sm border border-transparent px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#19140035] dark:text-[#EDEDEC] dark:hover:border-[#3E3E3A]"
+                        >
+                            Log in
+                        </Link>
+                        <Link
+                            href={route('register')}
+                            className="mr-4 inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
+                        >
+                            Register
+                        </Link>
+                    </>
+                )}
+            </nav>
+
         <AuthLayout title="Create an account" description="Enter your details below to create your account">
             <Head title="Register" />
             <form className="flex flex-col gap-6" onSubmit={submit}>
@@ -101,13 +136,13 @@ export default function Register() {
                         <InputError message={errors.password_confirmation} />
                     </div>
 
-                    <Button type="submit" className="mt-2 w-full" tabIndex={5} disabled={processing}>
-                        {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
+                    <Button type="submit" className="w-full mt-2 bg-red-400 hover:bg-red-500" tabIndex={5} disabled={processing}>
+                        {processing && <LoaderCircle className="w-4 h-4 animate-spin" />}
                         Create account
                     </Button>
                 </div>
 
-                <div className="text-center text-sm text-muted-foreground">
+                <div className="text-sm text-center text-muted-foreground">
                     Already have an account?{' '}
                     <TextLink href={route('login')} tabIndex={6}>
                         Log in
@@ -115,5 +150,6 @@ export default function Register() {
                 </div>
             </form>
         </AuthLayout>
+      </>
     );
 }
