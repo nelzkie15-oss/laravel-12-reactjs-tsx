@@ -40,9 +40,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('orders/{order}', [OrdersController::class, 'destroy'])->name('order.destroy');
 
 
-
-
 });
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
+
+
+Route::get('/clear', function () {
+    Artisan::call('optimize:clear');
+    return 'cleared';
+});
