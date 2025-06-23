@@ -6,7 +6,6 @@ use App\Http\Controllers\Admin\ProductsController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-
 Route::get('/check-sqlite', function () {
     $path = database_path('database.sqlite');
 
