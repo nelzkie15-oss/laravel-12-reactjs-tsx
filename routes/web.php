@@ -6,15 +6,6 @@ use App\Http\Controllers\Admin\ProductsController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/check-sqlite', function () {
-    $path = database_path('database.sqlite');
-
-    if (file_exists($path)) {
-        return "✅ SQLite file exists at: $path";
-    } else {
-        return "❌ SQLite file NOT found at: $path";
-    }
-});
 
 
 Route::get('/', function () {
